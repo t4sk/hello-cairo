@@ -1,3 +1,5 @@
+# Install
+
 ```
 # install pyenv
 
@@ -27,4 +29,13 @@ cairo-run \
   --program=test_compiled.json --print_output \
   --print_info --relocate_prints \
   --tracer
+```
+
+# Setup account
+
+```
+export STARKNET_NETWORK=alpha-goerli
+export STARKNET_WALLET=starkware.starknet.wallets.open_zeppelin.OpenZeppelinAccount
+
+starknet deploy_account
 ```
