@@ -39,3 +39,39 @@ export STARKNET_WALLET=starkware.starknet.wallets.open_zeppelin.OpenZeppelinAcco
 
 starknet deploy_account
 ```
+
+# Compile and deploy
+
+```
+starknet-compile contract.cairo \
+    --output contract_compiled.json \
+    --abi contract_abi.json
+
+export STARKNET_NETWORK=alpha-goerli
+export STARKNET_WALLET=starkware.starknet.wallets.open_zeppelin.OpenZeppelinAccount
+
+starknet declare --contract contract_compiled.json
+
+# deploy contract
+CLASS_HASH=0x68704d18de8ccf71da7c9761ee53efd44dcfcfd512eddfac9c396e7d175e234
+starknet deploy --class_hash $CLASS_HASH
+
+# interact with contract
+CONTRACT_ADDR=0x058033a8754130de5ed44b74e956b3393dd04a333c1db061ba1b50c3cf640904
+starknet invoke \
+    --address $CONTRACT_ADDR \
+    --abi contract_abi.json \
+    --function increase_balance \
+    --inputs 1234
+
+# query
+starknet call \
+    --address $CONTRACT_ADDR \
+    --abi contract_abi.json \
+    --function get_balance
+
+# transaction status
+TX_HASH=0x691f959313c284f8d95599a6ead398d7d21511ab1d99c32de1e262f02810b35
+starknet tx_status --hash $TX_HASH
+
+```
