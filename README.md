@@ -75,3 +75,36 @@ TX_HASH=0x691f959313c284f8d95599a6ead398d7d21511ab1d99c32de1e262f02810b35
 starknet tx_status --hash $TX_HASH
 
 ```
+
+### user auth example
+
+```
+starknet-compile user_auth.cairo \
+    --output user_auth_compiled.json \
+    --abi user_auth_abi.json
+
+export STARKNET_NETWORK=alpha-goerli
+export STARKNET_WALLET=starkware.starknet.wallets.open_zeppelin.OpenZeppelinAccount
+
+starknet deploy --contract user_auth_compiled.json --no_wallet
+
+CONTRACT_ADDR=0x042438621596b7a4e388963205459facddb65f12e0764475f2727f5aaff3f5f1
+
+starknet invoke \
+    --address ${CONTRACT_ADDR} \
+    --abi user_auth_abi.json \
+    --function increase_balance \
+    --inputs 4321
+
+TX_HASH=0x21f2ddfe35c484e6985d1db4c0b03866c632d35141ff766297fa228b4772b2b
+
+starknet tx_status --hash $TX_HASH
+
+ACCOUNT=0x024c356efa03b4910b4645deb0a4401b5cbf7b5640ea8a1a161bcce099350ea7
+
+starknet call \
+    --address ${CONTRACT_ADDR} \
+    --abi user_auth_abi.json \
+    --function get_balance \
+    --inputs ${ACCOUNT}
+```
