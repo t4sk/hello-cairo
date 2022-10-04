@@ -1,3 +1,9 @@
+https://www.cairo-lang.org/
+
+# Explorer
+
+https://goerli.voyager.online/
+
 # Install
 
 ```
@@ -107,4 +113,23 @@ starknet call \
     --abi user_auth_abi.json \
     --function get_balance \
     --inputs ${ACCOUNT}
+```
+
+### constructor example
+
+```shell
+# compile
+starknet-compile ownable.cairo \
+    --output ownable_compiled.json \
+    --abi ownable_abi.json
+
+# upload code
+export STARKNET_NETWORK=alpha-goerli
+export STARKNET_WALLET=starkware.starknet.wallets.open_zeppelin.OpenZeppelinAccount
+
+starknet declare --contract ownable_compiled.json
+
+# deploy
+starknet deploy --contract ownable_compiled.json --inputs 123 --no_wallet
+
 ```
