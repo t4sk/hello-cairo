@@ -133,3 +133,51 @@ starknet declare --contract ownable_compiled.json
 starknet deploy --contract ownable_compiled.json --inputs 123 --no_wallet
 
 ```
+
+# L1 L2
+
+```
+starknet-compile l1l2.cairo \
+    --output l1l2_compiled.json \
+    --abi l1l2_abi.json
+
+starknet deploy --contract l1l2_compiled.json --no_wallet
+
+CONTRACT_ADDR=0x02ccc2318b908ae1928cce871da57fdbcff4ce8bec5b4a0c3bff86b3f9e0f3bd
+
+USERID="1"
+
+# increase balance
+starknet invoke \
+    --address $CONTRACT_ADDR \
+    --abi l1l2_abi.json \
+    --function increase_balance \
+    --inputs \
+        $USERID \
+        3333
+
+# get balance
+starknet call \
+    --address $CONTRACT_ADDR \
+    --abi l1l2_abi.json \
+    --function get_balance \
+    --inputs \
+        $USERID
+
+# withdraw
+starknet invoke \
+    --address $CONTRACT_ADDR \
+    --abi l1l2_abi.json \
+    --function withdraw \
+    --inputs \
+        $USERID \
+        1000
+
+TX_HASH=0x52526940df0fb89d702635fa48930431dc7ff8ff987c79bb5562c08470c7a39
+
+# call withdraw on L1
+contract address
+https://goerli.etherscan.io/address/0x8359E4B0152ed5A731162D3c7B0D8D56edB165A0#writeContract
+
+
+```
