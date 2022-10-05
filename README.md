@@ -173,11 +173,18 @@ starknet invoke \
         $USERID \
         1000
 
+# check tx status
 TX_HASH=0x52526940df0fb89d702635fa48930431dc7ff8ff987c79bb5562c08470c7a39
+starknet tx_status --hash $TX_HASH
 
 # call withdraw on L1
 contract address
 https://goerli.etherscan.io/address/0x8359E4B0152ed5A731162D3c7B0D8D56edB165A0#writeContract
 
+withdraw(
+    $CONTRACT_ADDR,
+    $USERID,
+    1000
+)
 
 ```
