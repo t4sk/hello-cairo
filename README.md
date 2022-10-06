@@ -136,16 +136,18 @@ starknet deploy --contract ownable_compiled.json --inputs 123 --no_wallet
 
 # L1 L2
 
-```
+```shell
+export STARKNET_NETWORK=alpha-goerli
+export STARKNET_WALLET=starkware.starknet.wallets.open_zeppelin.OpenZeppelinAccount
+
 starknet-compile l1l2.cairo \
     --output l1l2_compiled.json \
     --abi l1l2_abi.json
 
 starknet deploy --contract l1l2_compiled.json --no_wallet
 
-CONTRACT_ADDR=0x02ccc2318b908ae1928cce871da57fdbcff4ce8bec5b4a0c3bff86b3f9e0f3bd
-
-USERID="1"
+CONTRACT_ADDR=0x003846939b24741942da392312c449dd113a87a05c5115922a909f2673a2885a
+USERID=1
 
 # increase balance
 starknet invoke \
@@ -173,12 +175,21 @@ starknet invoke \
         $USERID \
         1000
 
-# check tx status
-TX_HASH=0x52526940df0fb89d702635fa48930431dc7ff8ff987c79bb5562c08470c7a39
+# get balance again
+starknet call \
+    --address $CONTRACT_ADDR \
+    --abi l1l2_abi.json \
+    --function get_balance \
+    --inputs \
+        $USERID
+
+# check tx status (wait for tx to be included on L1)
+TX_HASH=0x65afaf4206f1ee79511feb0d2f39ae3dbae03e8b99b73a046e8994c5b345c56
 starknet tx_status --hash $TX_HASH
 
 # call withdraw on L1
-contract address
+L1 contract address
+0x8359E4B0152ed5A731162D3c7B0D8D56edB165A0
 https://goerli.etherscan.io/address/0x8359E4B0152ed5A731162D3c7B0D8D56edB165A0#writeContract
 
 withdraw(
